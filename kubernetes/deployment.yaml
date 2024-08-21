@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: springboot-container
-          image: my-spring-boot-app:latest  # Replace with your Docker image name
+          image: yigithak/springboot-automation:latest
           ports:
             - containerPort: 8080
