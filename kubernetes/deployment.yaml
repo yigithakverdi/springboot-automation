@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: springboot-deployment
+  namespace: test
   labels:
     app: springboot-app
 spec:
@@ -16,6 +17,17 @@ spec:
     spec:
       containers:
         - name: springboot-container
-          image: yigithak/springboot-automation:latest
+          image: springboot-automation:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: https
+          volumeMounts:
+            - name: tls-secret
+              mountPath: /etc/ssl/certs
+              readOnly: true
+      volumes:
+        - name: tls-secret
+          secret:
+            secretName: springboot-tls-secret
