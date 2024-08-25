@@ -37,6 +37,13 @@ pipeline {
                 }
             }
         }
+        
+        stage('Deploy to Nexus') {
+            steps {
+                // Deploy the artifact to Nexus
+                sh "${MAVEN_HOME}/bin/mvn deploy -s /path/to/your/settings.xml"
+            }
+        }
 
         stage('Dockerize') {
             steps {
@@ -66,6 +73,7 @@ pipeline {
                 script {
                     dir('kubernetes') {
                         sh """
+                        kubectl apply -f test-namespace.yaml
                         kubectl apply -f deployment.yaml
                         kubectl apply -f service.yaml
                         """
@@ -85,4 +93,3 @@ pipeline {
         }
     }
 }
-
