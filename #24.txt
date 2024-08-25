@@ -1,0 +1,299 @@
+Started by user Yigit Hakverdi
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/springboot-k8s-deployment
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_CREDENTIALS or $DOCKER_CREDENTIALS_PSW or $KUBECONFIG or $GIT_CREDENTIALS
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Sanity Check)
+[Pipeline] sh
++ kubectl config current-context
+minikube
++ docker --version
+Docker version 20.10.20, build 9fdeb9c
++ java --version
+openjdk 17.0.12 2024-07-16
+OpenJDK Runtime Environment (build 17.0.12+7-Ubuntu-1ubuntu220.04)
+OpenJDK 64-Bit Server VM (build 17.0.12+7-Ubuntu-1ubuntu220.04, mixed mode, sharing)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+The recommended git tool is: NONE
+Warning: CredentialId "github-credentials" could not be found.
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/springboot-k8s-deployment/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/yigithakverdi/springboot-automation.git # timeout=10
+Fetching upstream changes from https://github.com/yigithakverdi/springboot-automation.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+ > git fetch --tags --force --progress -- https://github.com/yigithakverdi/springboot-automation.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision b9769c5c1e00ca3394e2e531afba3df146477aee (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b9769c5c1e00ca3394e2e531afba3df146477aee # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master b9769c5c1e00ca3394e2e531afba3df146477aee # timeout=10
+Commit message: "Jenkins config dosyasi eklendi"
+ > git rev-list --no-walk b9769c5c1e00ca3394e2e531afba3df146477aee # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/springboot-k8s-deployment/src
+[Pipeline] {
+[Pipeline] sh
++ mvn clean package
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--------------------------< [0;36mcom.example:demo[0;1m >--------------------------[m
+[[1;34mINFO[m] [1mBuilding demo 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-clean-plugin:3.3.2:clean[m [1m(default-clean)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Deleting /var/lib/jenkins/workspace/springboot-k8s-deployment/src/target
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:compile[m [1m(default-compile)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged source code[m.
+[[1;34mINFO[m] Compiling 2 source files with javac [debug parameters release 17] to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /var/lib/jenkins/workspace/springboot-k8s-deployment/src/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:testCompile[m [1m(default-testCompile)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Recompiling the module because of [1mchanged dependency[m.
+[[1;34mINFO[m] Compiling 1 source file with javac [debug parameters release 17] to target/test-classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:3.2.5:test[m [1m(default-test)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[[1;34mINFO[m] 
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m]  T E S T S
+[[1;34mINFO[m] -------------------------------------------------------
+[[1;34mINFO[m] Running com.example.demo.[1mDemoApplicationTests[m
+20:16:08.953 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.demo.DemoApplicationTests]: DemoApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:16:09.128 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.demo.DemoApplication for test class com.example.demo.DemoApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.2)
+
+2024-08-25T20:16:09.978+03:00  INFO 178776 --- [GreetingApplication] [           main] com.example.demo.DemoApplicationTests    : Starting DemoApplicationTests using Java 17.0.12 with PID 178776 (started by jenkins in /var/lib/jenkins/workspace/springboot-k8s-deployment/src)
+2024-08-25T20:16:09.981+03:00  INFO 178776 --- [GreetingApplication] [           main] com.example.demo.DemoApplicationTests    : No active profile set, falling back to 1 default profile: "default"
+2024-08-25T20:16:11.553+03:00  INFO 178776 --- [GreetingApplication] [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-08-25T20:16:11.881+03:00  INFO 178776 --- [GreetingApplication] [           main] com.example.demo.DemoApplicationTests    : Started DemoApplicationTests in 2.411 seconds (process running for 4.299)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[[1;34mINFO[m] [1;32mTests run: [0;1;32m1[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.410 s -- in com.example.demo.[1mDemoApplicationTests[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] Results:
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1;32mTests run: 1, Failures: 0, Errors: 0, Skipped: 0[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-jar-plugin:3.4.2:jar[m [1m(default-jar)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Building jar: /var/lib/jenkins/workspace/springboot-k8s-deployment/src/target/demo-0.0.1-SNAPSHOT.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:3.3.2:repackage[m [1m(repackage)[m @ [36mdemo[0;1m ---[m
+[[1;34mINFO[m] Replacing main artifact /var/lib/jenkins/workspace/springboot-k8s-deployment/src/target/demo-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[[1;34mINFO[m] The original artifact has been renamed to /var/lib/jenkins/workspace/springboot-k8s-deployment/src/target/demo-0.0.1-SNAPSHOT.jar.original
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  11.572 s
+[[1;34mINFO[m] Finished at: 2024-08-25T20:16:14+03:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Dockerize)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [DOCKER_CREDENTIALS_PSW]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ docker build -t springboot-automation:latest .
+#1 [internal] load build definition from Dockerfile
+#1 sha256:5e9d559fbe83497e6bee03f7b88d548b1fe1253eb9780f2d7fa4fc8646720cf5
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 sha256:5e9d559fbe83497e6bee03f7b88d548b1fe1253eb9780f2d7fa4fc8646720cf5
+#1 transferring dockerfile: 36B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 sha256:6355a4dc5b07dc87431f529103ef67fa5e19266b956d264a7205a7307ba4749b
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#4 [auth] library/openjdk:pull token for registry-1.docker.io
+#4 sha256:998926d15f5483f75b6ba54d5d16663fd3ae594c11a63d992e09f81c2e47b0d2
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/openjdk:17-jdk-alpine
+#3 sha256:97153be9c681a009d11ded98a5f3f83a87ed87826656c15e1ce917e87cd1a9c6
+#3 DONE 1.0s
+
+#5 [1/3] FROM docker.io/library/openjdk:17-jdk-alpine@sha256:4b6abae565492dbe9e7a894137c966a7485154238902f2f25e9dbd9784383d81
+#5 sha256:d0706899f6f67efc27cf55b4703d279d2955a1df1476b6d5f0b02473833d5b60
+#5 DONE 0.0s
+
+#7 [internal] load build context
+#7 sha256:91bb732d1812a2936e20219f9fc90f3b0d726a75fdadeab8e055edad50d20a17
+#7 transferring context: 21.86MB 0.4s done
+#7 DONE 0.4s
+
+#6 [2/3] WORKDIR /app
+#6 sha256:62446bcb0f8a21266e8d4ac806324e3a0127c92a898bd58dd5aa05164aa0b25f
+#6 CACHED
+
+#8 [3/3] COPY src/target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
+#8 sha256:625cdde4baa69da53d73a876f9e4a15dc3f9f362b387aa044c09ea49a3adb262
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
+#9 exporting layers
+#9 exporting layers 0.1s done
+#9 writing image sha256:1487b80a4da913c7a3bbb844e9a0a76a0f9fe64f6ec66c773c8ef9d0d2ce9376 done
+#9 naming to docker.io/library/springboot-automation:latest done
+#9 DONE 0.2s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
++ docker login -u yigithak -p ****
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+Logging in with your password grants your terminal complete access to your account. 
+For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
++ docker tag springboot-automation:latest yigithak/springboot-automation:latest
++ docker push yigithak/springboot-automation:latest
+The push refers to repository [docker.io/yigithak/springboot-automation]
+7140334a55cb: Preparing
+837d70057e18: Preparing
+34f7184834b2: Preparing
+5836ece05bfd: Preparing
+72e830a4dff5: Preparing
+837d70057e18: Layer already exists
+34f7184834b2: Layer already exists
+72e830a4dff5: Layer already exists
+5836ece05bfd: Layer already exists
+7140334a55cb: Pushed
+latest: digest: sha256:1354e6d6e887475ac4b163ace946a1890d12143b653b947a7af958572b3d6b53 size: 1369
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push to DockerHub)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+Using the existing docker config file.Removing blacklisted property: auths$ docker login -u yigithak -p ******** https://index.docker.io/v1/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/workspace/springboot-k8s-deployment@tmp/da0b4f1c-68a3-4016-8f03-0154f2bd1cf3/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+Logging in with your password grants your terminal complete access to your account. 
+For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker tag yigithak/springboot-automation:latest index.docker.io/yigithak/springboot-automation:latest
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker push index.docker.io/yigithak/springboot-automation:latest
+The push refers to repository [docker.io/yigithak/springboot-automation]
+7140334a55cb: Preparing
+837d70057e18: Preparing
+34f7184834b2: Preparing
+5836ece05bfd: Preparing
+72e830a4dff5: Preparing
+5836ece05bfd: Layer already exists
+72e830a4dff5: Layer already exists
+837d70057e18: Layer already exists
+34f7184834b2: Layer already exists
+7140334a55cb: Layer already exists
+latest: digest: sha256:1354e6d6e887475ac4b163ace946a1890d12143b653b947a7af958572b3d6b53 size: 1369
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to Kubernetes)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] dir
+Running in /var/lib/jenkins/workspace/springboot-k8s-deployment/kubernetes
+[Pipeline] {
+[Pipeline] sh
++ kubectl apply -f test-namespace.yaml
+namespace/test created
++ kubectl apply -f deployment.yaml
+deployment.apps/springboot-deployment created
++ kubectl apply -f service.yaml
+service/springboot-service created
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Pipeline completed successfully!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

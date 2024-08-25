@@ -17,17 +17,6 @@ spec:
     spec:
       containers:
         - name: springboot-container
-          image: springboot-automation:latest
+          image: yigithak/springboot-automation:latest
           ports:
-            - containerPort: 8080
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: https
-          volumeMounts:
-            - name: tls-secret
-              mountPath: /etc/ssl/certs
-              readOnly: true
-      volumes:
-        - name: tls-secret
-          secret:
-            secretName: springboot-tls-secret
+            - containerPort: 8443
